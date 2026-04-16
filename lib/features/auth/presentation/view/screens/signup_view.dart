@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:task_track/core/constants/app_colors.dart';
 import 'package:task_track/core/helpers/auth_helper.dart';
 import 'package:task_track/features/auth/presentation/router/auth_router.dart';
-import 'package:task_track/features/auth/presentation/view/widgets/auth_logo.dart';
 import 'package:task_track/features/auth/presentation/view/widgets/auth_text_field.dart';
-import 'package:task_track/features/auth/presentation/view/widgets/auth_view_handler.dart';
-import 'package:task_track/core/theme/theme_provider.dart';
 import 'package:task_track/features/auth/auth_providers.dart';
 import 'package:task_track/features/auth/presentation/presenter/signup_presenter.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_header.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_footer.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_submit_button.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_theme_toggle.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_view_handler.dart';
 
 class SignupView extends ConsumerStatefulWidget {
   const SignupView({super.key});
@@ -29,6 +30,7 @@ class _SignupViewState extends ConsumerState<SignupView> with AuthViewHandler {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : Colors.grey.shade50,
       body: SafeArea(
         child: Stack(
           children: [
@@ -37,34 +39,11 @@ class _SignupViewState extends ConsumerState<SignupView> with AuthViewHandler {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
-
-                  // Logo
-                  const Center(child: AuthLogo()),
-
-                  Center(
-                    child: Text(
-                      'Create your account',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: isDark ? Colors.white : Colors.black,
-                      ),
-                    ),
+                  AuthHeader(
+                    title: 'Create your account',
+                    subtitle: 'Please enter your details.',
+                    isDark: isDark,
                   ),
-
-                  const SizedBox(height: 8),
-
-                  Center(
-                    child: Text(
-                      'Please enter your details.',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: isDark
-                            ? AppColors.textSecondary
-                            : AppColors.textSubheader,
-                      ),
-                    ),
-                  ),
-
                   const SizedBox(height: 32),
 
                   Form(
@@ -136,8 +115,8 @@ class _SignupViewState extends ConsumerState<SignupView> with AuthViewHandler {
                                   : Icons.visibility_off_outlined,
                               size: 20,
                               color: isDark
-                                  ? AppColors.textTertiary
-                                  : AppColors.textSubheader,
+                                  ? Colors.white54
+                                  : Colors.grey,
                             ),
                             onPressed: presenter.togglePassword,
                           ),
@@ -162,8 +141,8 @@ class _SignupViewState extends ConsumerState<SignupView> with AuthViewHandler {
                                   : Icons.visibility_off_outlined,
                               size: 20,
                               color: isDark
-                                  ? AppColors.textTertiary
-                                  : AppColors.textSubheader,
+                                  ? Colors.white54
+                                  : Colors.grey,
                             ),
                             onPressed: presenter.toggleConfirmPassword,
                           ),
@@ -185,49 +164,20 @@ class _SignupViewState extends ConsumerState<SignupView> with AuthViewHandler {
                         const SizedBox(height: 32),
 
                         /// Signup Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed:
-                                state.isLoading ? null : presenter.signup,
-                            child: state.isLoading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : const Text('Create account'),
-                          ),
+                        AuthSubmitButton(
+                          text: 'Create account',
+                          isLoading: state.isLoading,
+                          onPressed: presenter.signup,
                         ),
 
                         const SizedBox(height: 32),
 
                         /// Footer
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Already have an account? ",
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: isDark
-                                    ? AppColors.textSecondary
-                                    : AppColors.textSubheader,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => context.go(AuthRouter.login),
-                              child: Text(
-                                'Sign in',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.blue,
-                                ),
-                              ),
-                            ),
-                          ],
+                        AuthFooter(
+                          text: "Already have an account? ",
+                          actionText: 'Sign in',
+                          isDark: isDark,
+                          onTap: () => context.go(AuthRouter.login),
                         ),
 
                         const SizedBox(height: 40),
@@ -239,19 +189,7 @@ class _SignupViewState extends ConsumerState<SignupView> with AuthViewHandler {
             ),
 
             /// Theme Toggle
-            Positioned(
-              top: 8,
-              right: 8,
-              child: IconButton(
-                icon: Icon(
-                  isDark ? Icons.wb_sunny_outlined : Icons.nightlight_outlined,
-                  color: isDark ? Colors.white : AppColors.textHeader,
-                ),
-                onPressed: () {
-                  ref.read(themeModeProvider.notifier).toggle(isDark);
-                },
-              ),
-            ),
+            AuthThemeToggle(isDark: isDark),
           ],
         ),
       ),

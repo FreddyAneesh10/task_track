@@ -14,6 +14,7 @@ class AppTheme {
         brightness: Brightness.light,
       ),
       useMaterial3: true,
+      fontFamily: GoogleFonts.inter().fontFamily,
       textTheme: GoogleFonts.interTextTheme(),
       elevatedButtonTheme: _elevatedButtonTheme(isDark: false),
       textButtonTheme: _textButtonTheme(isDark: false),
@@ -30,6 +31,7 @@ class AppTheme {
         brightness: Brightness.dark,
       ),
       useMaterial3: true,
+      fontFamily: GoogleFonts.inter().fontFamily,
       textTheme: GoogleFonts.interTextTheme(),
       elevatedButtonTheme: _elevatedButtonTheme(isDark: true),
       textButtonTheme: _textButtonTheme(isDark: true),
@@ -79,7 +81,7 @@ class AppTheme {
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
       ),
-      errorStyle: const TextStyle(fontSize: 10, color: Colors.redAccent),
+      errorStyle: GoogleFonts.inter(fontSize: 10, color: Colors.redAccent),
     );
   }
 }

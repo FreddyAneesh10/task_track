@@ -1,0 +1,34 @@
+import 'package:task_track/features/dashboard/domain/entities/dashboard_stats.dart';
+import 'package:task_track/features/dashboard/domain/entities/dashboard_task.dart';
+
+class DashboardState {
+  final bool isLoading;
+  final DashboardStats stats;
+  final List<DashboardTask> tasks;
+  final String? errorMessage;
+  final int selectedTabIndex; // 0: Active, 1: Other
+
+  const DashboardState({
+    this.isLoading = false,
+    this.stats = const DashboardStats.empty(),
+    this.tasks = const [],
+    this.errorMessage,
+    this.selectedTabIndex = 0,
+  });
+
+  DashboardState copyWith({
+    bool? isLoading,
+    DashboardStats? stats,
+    List<DashboardTask>? tasks,
+    String? errorMessage,
+    int? selectedTabIndex,
+  }) {
+    return DashboardState(
+      isLoading: isLoading ?? this.isLoading,
+      stats: stats ?? this.stats,
+      tasks: tasks ?? this.tasks,
+      errorMessage: errorMessage ?? this.errorMessage,
+      selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
+    );
+  }
+}

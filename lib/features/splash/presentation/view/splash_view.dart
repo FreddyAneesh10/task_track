@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:task_track/core/constants/app_colors.dart';
+import 'package:task_track/features/splash/presentation/view/widgets/splash_logo.dart';
 import 'package:task_track/features/splash/splash_providers.dart';
 
 class SplashView extends ConsumerStatefulWidget {
@@ -22,26 +23,13 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.primaryButton,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Stylized Logo from Image
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 80,
-              child: Center(
-                child: Image.asset(
-                  'assets/image (1).png',
-                  width: 120,
-                  height: 120,
-                  fit: BoxFit.contain,
-                  // color: Colors.white, // Ensure visibility on blue
-                ),
-              ),
-            ),
+            SplashLogo(),
           ],
         ),
       ),

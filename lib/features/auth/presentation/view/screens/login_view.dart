@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:task_track/core/constants/app_colors.dart';
 import 'package:task_track/features/auth/presentation/router/auth_router.dart';
-import 'package:task_track/features/auth/presentation/view/widgets/auth_logo.dart';
 import 'package:task_track/features/auth/presentation/view/widgets/auth_text_field.dart';
 import 'package:task_track/core/helpers/auth_helper.dart';
 import 'package:task_track/features/auth/auth_providers.dart';
 import 'package:task_track/features/auth/presentation/view/widgets/auth_view_handler.dart';
-import 'package:task_track/core/theme/theme_provider.dart';
 import 'package:task_track/features/auth/presentation/presenter/login_presenter.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_header.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_footer.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_submit_button.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_theme_toggle.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -28,6 +29,7 @@ class _LoginViewState extends ConsumerState<LoginView> with AuthViewHandler {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
+      backgroundColor: isDark ? Colors.black : Colors.grey.shade50,
       body: SafeArea(
         child: Stack(
           children: [
@@ -36,29 +38,10 @@ class _LoginViewState extends ConsumerState<LoginView> with AuthViewHandler {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
-                  // Logo
-                  const Center(child: AuthLogo()),
-
-                  Center(
-                    child: Text(
-                      'Welcome back',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: isDark ? Colors.white : Colors.black,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Center(
-                    child: Text(
-                      'Please enter your details.',
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: isDark
-                            ? AppColors.textSecondary
-                            : AppColors.textSubheader,
-                      ),
-                    ),
+                  AuthHeader(
+                    title: 'Welcome back',
+                    subtitle: 'Please enter your details.',
+                    isDark: isDark,
                   ),
                   const SizedBox(height: 32),
 
@@ -88,8 +71,8 @@ class _LoginViewState extends ConsumerState<LoginView> with AuthViewHandler {
                                   : Icons.visibility_off_outlined,
                               size: 20,
                               color: isDark
-                                  ? AppColors.textTertiary
-                                  : AppColors.textSubheader,
+                                  ? Colors.white54
+                                  : Colors.grey,
                             ),
                             onPressed: presenter.togglePassword,
                           ),
@@ -106,48 +89,19 @@ class _LoginViewState extends ConsumerState<LoginView> with AuthViewHandler {
                         const SizedBox(height: 32),
 
                         // Sign In Button
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed:
-                                state.isLoading ? null : presenter.login,
-                            child: state.isLoading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : const Text('Sign in'),
-                          ),
+                        AuthSubmitButton(
+                          text: 'Sign in',
+                          isLoading: state.isLoading,
+                          onPressed: presenter.login,
                         ),
                         const SizedBox(height: 32),
 
                         // Footer
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Don't have an account? ",
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: isDark
-                                    ? AppColors.textSecondary
-                                    : AppColors.textSubheader,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => context.go(AuthRouter.signup),
-                              child: Text(
-                                'Sign up',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.blue,
-                                ),
-                              ),
-                            ),
-                          ],
+                        AuthFooter(
+                          text: "Don't have an account? ",
+                          actionText: 'Sign up',
+                          isDark: isDark,
+                          onTap: () => context.go(AuthRouter.signup),
                         ),
                       ],
                     ),
@@ -156,20 +110,8 @@ class _LoginViewState extends ConsumerState<LoginView> with AuthViewHandler {
               ),
             ),
 
-            // Theme Toggle (Placed last to be on top and clickable)
-            Positioned(
-              top: 8,
-              right: 8,
-              child: IconButton(
-                icon: Icon(
-                  isDark ? Icons.wb_sunny_outlined : Icons.nightlight_outlined,
-                  color: isDark ? Colors.white : AppColors.textHeader,
-                ),
-                onPressed: () {
-                  ref.read(themeModeProvider.notifier).toggle(isDark);
-                },
-              ),
-            ),
+            // Theme Toggle
+            AuthThemeToggle(isDark: isDark),
           ],
         ),
       ),

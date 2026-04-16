@@ -6,6 +6,7 @@ import '../../interactor/login_interactor.dart';
 abstract class BaseAuthState {
   bool get isLoading;
   String? get error;
+  UserEntity? get user;
 }
 
 class LoginState implements BaseAuthState {
@@ -13,6 +14,7 @@ class LoginState implements BaseAuthState {
   final bool isLoading;
   @override
   final String? error;
+  @override
   final UserEntity? user;
   final bool obscurePassword;
 

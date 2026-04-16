@@ -10,6 +10,7 @@ class SignupState implements BaseAuthState {
   final bool isLoading;
   @override
   final String? error;
+  @override
   final UserEntity? user;
   final bool obscurePassword;
   final bool obscureConfirmPassword;
