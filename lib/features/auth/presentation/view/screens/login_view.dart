@@ -11,6 +11,7 @@ import 'package:task_track/features/auth/presentation/view/widgets/auth_header.d
 import 'package:task_track/features/auth/presentation/view/widgets/auth_footer.dart';
 import 'package:task_track/features/auth/presentation/view/widgets/auth_submit_button.dart';
 import 'package:task_track/features/auth/presentation/view/widgets/auth_theme_toggle.dart';
+import 'package:task_track/features/auth/presentation/view/widgets/auth_forgot_password_button.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -78,14 +79,7 @@ class _LoginViewState extends ConsumerState<LoginView> with AuthViewHandler {
                           ),
                         ),
 
-                        // Actions Row
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: const Text('Forgot password'),
-                          ),
-                        ),
+                        AuthForgotPasswordButton(onTap: () {}),
                         const SizedBox(height: 32),
 
                         // Sign In Button

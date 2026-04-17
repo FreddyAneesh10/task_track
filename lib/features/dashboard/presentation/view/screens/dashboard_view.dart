@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:task_track/core/constants/app_colors.dart';
 import 'package:task_track/features/dashboard/dashboard_providers.dart';
 import 'package:task_track/features/dashboard/presentation/view/widgets/dashboard_header.dart';
 import 'package:task_track/features/dashboard/presentation/view/widgets/dashboard_stats_grid.dart';
@@ -48,27 +47,6 @@ class DashboardView extends ConsumerWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        backgroundColor: isDark ? Colors.black : Colors.white,
-        selectedItemColor: AppColors.primary,
-        unselectedItemColor: isDark ? AppColors.textSecondary : Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard_rounded),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people_outline_rounded),
-            label: 'Users',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.folder_open_rounded),
-            label: 'Projects',
-          ),
-        ],
       ),
     );
   }

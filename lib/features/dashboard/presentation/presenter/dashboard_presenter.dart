@@ -28,7 +28,28 @@ class DashboardPresenter extends StateNotifier<DashboardState> {
   }
 
   void setTab(int index) {
+    if (state.selectedTabIndex == index) return;
     state = state.copyWith(selectedTabIndex: index);
+  }
+
+  void setProjectFilter(String value) {
+    if (state.projectFilter == value) return;
+    state = state.copyWith(projectFilter: value);
+  }
+
+  void setAssigneeFilter(String value) {
+    if (state.assigneeFilter == value) return;
+    state = state.copyWith(assigneeFilter: value);
+  }
+
+  void setStatusFilter(String value) {
+    if (state.statusFilter == value) return;
+    state = state.copyWith(statusFilter: value);
+  }
+
+  void setPriorityFilter(String value) {
+    if (state.priorityFilter == value) return;
+    state = state.copyWith(priorityFilter: value);
   }
 
   void refresh() {

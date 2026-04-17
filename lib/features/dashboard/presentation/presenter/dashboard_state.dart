@@ -7,6 +7,10 @@ class DashboardState {
   final List<DashboardTask> tasks;
   final String? errorMessage;
   final int selectedTabIndex; // 0: Active, 1: Other
+  final String projectFilter;
+  final String statusFilter;
+  final String priorityFilter;
+  final String assigneeFilter;
 
   const DashboardState({
     this.isLoading = false,
@@ -14,6 +18,10 @@ class DashboardState {
     this.tasks = const [],
     this.errorMessage,
     this.selectedTabIndex = 0,
+    this.projectFilter = 'All Projects',
+    this.statusFilter = 'All Statuses',
+    this.priorityFilter = 'All Priorities',
+    this.assigneeFilter = 'All Assignees',
   });
 
   DashboardState copyWith({
@@ -22,6 +30,10 @@ class DashboardState {
     List<DashboardTask>? tasks,
     String? errorMessage,
     int? selectedTabIndex,
+    String? projectFilter,
+    String? statusFilter,
+    String? priorityFilter,
+    String? assigneeFilter,
   }) {
     return DashboardState(
       isLoading: isLoading ?? this.isLoading,
@@ -29,6 +41,10 @@ class DashboardState {
       tasks: tasks ?? this.tasks,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedTabIndex: selectedTabIndex ?? this.selectedTabIndex,
+      projectFilter: projectFilter ?? this.projectFilter,
+      statusFilter: statusFilter ?? this.statusFilter,
+      priorityFilter: priorityFilter ?? this.priorityFilter,
+      assigneeFilter: assigneeFilter ?? this.assigneeFilter,
     );
   }
 }
